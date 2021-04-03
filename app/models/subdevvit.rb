@@ -1,0 +1,2 @@
+class Subdevvit < ApplicationRecord
+end

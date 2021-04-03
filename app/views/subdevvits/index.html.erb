@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Subdevvits</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @subdevvits.each do |subdevvit| %>
+      <tr>
+        <td><%= subdevvit.name %></td>
+        <td><%= subdevvit.description %></td>
+        <td><%= link_to 'Show', subdevvit %></td>
+        <td><%= link_to 'Edit', edit_subdevvit_path(subdevvit) %></td>
+        <td><%= link_to 'Destroy', subdevvit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Subdevvit', new_subdevvit_path %>
