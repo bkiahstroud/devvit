@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_03_004314) do
+ActiveRecord::Schema.define(version: 2021_04_03_010909) do
 
   create_table "posts", force: :cascade do |t|
     t.string "title"
@@ -19,6 +19,16 @@ ActiveRecord::Schema.define(version: 2021_04_03_004314) do
     t.integer "downvotes"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "subdevvit_id"
+    t.index ["subdevvit_id"], name: "index_posts_on_subdevvit_id"
   end
 
+  create_table "subdevvits", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "posts", "subdevvits"
 end
