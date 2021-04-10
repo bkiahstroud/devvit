@@ -15,3 +15,72 @@
  */
 
 @import "bootstrap";
+
+body {
+  background-color: #0d1117;
+  color: #c9d1d9;
+}
+
+h1 {
+  color: #ff4500;
+}
+
+a {
+  text-decoration: none;
+}
+
+a, a:visited {
+  color: #58a6ff;
+}
+
+a:hover {
+  // color: #4d8fdb;
+  text-decoration: underline;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-auto-rows: minmax(100px, auto);
+  grid-row-gap: 20px;
+  justify-content: center;
+  // align-content: center;
+  // height: 100vh;
+  // justify-items: center;
+  // align-items: center;
+}
+
+.grid-container-post {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  // grid-auto-rows: minmax(500px, auto);
+  grid-row-gap: 5px;
+  justify-content: center;
+  // background-color: #141617;
+  padding: 5px;
+  border: 2px solid #2d3f57;
+  border-radius: 10px;
+}
+
+.grid-item-1 {
+  // align-self: center;
+  // justify-self: center;
+}
+
+.grid-item-post-1, .grid-item-post-2, .grid-item-post-3 {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+.grid-item-post-1 {
+  font-size: 1.75rem;
+}
+
+.grid-item-post-2 a {
+  color: #ff4500;
+}
+
+.grid-item-post-4, .grid-item-post-5, .grid-item-post-6 {
+  align-self: center;
+  justify-self: center;
+}

@@ -8,6 +8,9 @@ class SubdevvitsController < ApplicationController
 
   # GET /subdevvits/1 or /subdevvits/1.json
   def show
+    @posts = Post.where(subdevvit_id: @subdevvit.id)
+
+    render 'posts/index'
   end
 
   # GET /subdevvits/new

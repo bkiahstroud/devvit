@@ -1,37 +1,10 @@
-<%= form_with(model: post, local: true) do |form| %>
-  <% if post.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+<%= simple_form_for post do |f| %>
+  <%= f.error_notification %>
 
-      <ul>
-        <% post.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
-
-  <div class="field">
-    <%= form.label :text %>
-    <%= form.text_area :text %>
-  </div>
-
-  <div class="field">
-    <%= form.label :upvotes %>
-    <%= form.number_field :upvotes %>
-  </div>
-
-  <div class="field">
-    <%= form.label :downvotes %>
-    <%= form.number_field :downvotes %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <%= f.input :title %>
+  <%= f.input :subdevvit_id, collection: Subdevvit.all, include_blank: false %>
+  <%= f.input :text, as: :text %>
+  <%= f.input :upvotes, as: :integer %>
+  <%= f.input :downvotes, as: :integer %>
+  <%= f.button :submit %>
 <% end %>

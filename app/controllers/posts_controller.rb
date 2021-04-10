@@ -13,10 +13,12 @@ class PostsController < ApplicationController
   # GET /posts/new
   def new
     @post = Post.new
+    @subdevvits = Subdevvit.all
   end
 
   # GET /posts/1/edit
   def edit
+    @subdevvits = Subdevvit.all
   end
 
   # POST /posts or /posts.json
@@ -64,6 +66,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :text, :upvotes, :downvotes)
+      params.require(:post).permit(:title, :subdevvit_id, :text, :upvotes, :downvotes)
     end
 end
