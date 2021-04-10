@@ -1,7 +1,17 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+puts 'Seeding data...'
+
+pbq = Subdevvit.create(name: 'princess_bride_quotes', description: Faker::Movies::PrincessBride.quote)
+cw = Subdevvit.create(name: 'creative_writing', description: Faker::Lorem.sentence)
+himymq = Subdevvit.create(name: 'how_i_met_your_mother_quotes', description: Faker::TvShows::HowIMetYourMother.catch_phrase)
+
+Post.create(title: Faker::Movies::PrincessBride.character, text: Faker::Movies::PrincessBride.quote, subdevvit: pbq)
+Post.create(title: Faker::Lorem.word, text: Faker::Lorem.paragraph_by_chars, subdevvit: cw)
+Post.create(title: Faker::TvShows::HowIMetYourMother.catch_phrase, text: Faker::TvShows::HowIMetYourMother.quote, subdevvit: himymq)
+Post.create(title: Faker::Lorem.word, text: Faker::Lorem.paragraph_by_chars, subdevvit: cw)
+Post.create(title: Faker::TvShows::HowIMetYourMother.catch_phrase, text: Faker::TvShows::HowIMetYourMother.quote, subdevvit: himymq)
+Post.create(title: Faker::Movies::PrincessBride.character, text: Faker::Movies::PrincessBride.quote, subdevvit: pbq)
+Post.create(title: Faker::TvShows::HowIMetYourMother.catch_phrase, text: Faker::TvShows::HowIMetYourMother.quote, subdevvit: himymq)
+Post.create(title: Faker::Movies::PrincessBride.character, text: Faker::Movies::PrincessBride.quote, subdevvit: pbq)
+Post.create(title: Faker::Lorem.word, text: Faker::Lorem.paragraph_by_chars, subdevvit: cw)
+
+puts 'Successfully seeded data!'
