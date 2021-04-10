@@ -6,7 +6,7 @@
 <div class='grid-container'>
   <% @posts.each do |post| %>
     <div class='grid-item-1'></div>
-    <div class='grid-item-2 grid-container-post'>
+    <div class='grid-item-2 grid-container-post' data-post-id=<%= post.id %>>
       <div class='grid-item-post-1'><%= post.title %></div>
       <div class='grid-item-post-2'><%= link_to "d/#{post.subdevvit.name}", subdevvit_path(post.subdevvit) %></div>
       <div class='grid-item-post-3'><%= post.text %></div>
