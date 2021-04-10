@@ -65,7 +65,7 @@ RSpec.describe 'Posts', type: :feature, clean: true do
     it 'deletes a post' do
       visit '/posts'
 
-      accept_confirm { find("[data-post-id='#{post.id}']").find("[data-method='delete']").click }
+      accept_confirm { find("[data-id='#{post.id}']").find("[data-method='delete']").click }
 
       expect(page).to have_content('Post was successfully destroyed.')
       expect(page).not_to have_content(post.title)

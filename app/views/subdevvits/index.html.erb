@@ -6,7 +6,7 @@
 <div class='grid-container'>
   <% @subdevvits.each do |subdevvit| %>
     <div class='grid-item-1'></div>
-    <div class='grid-item-2 grid-container-subdevvit'>
+    <div class='grid-item-2 grid-container-subdevvit' data-id=<%= subdevvit.id %>>
       <h3 class='grid-item-subdevvit-1'><%= subdevvit.name %></h3>
       <div class='grid-item-subdevvit-2'><%= subdevvit.description %></div>
       <div class='grid-item-subdevvit-3'><%= link_to 'Show', subdevvit %></div>
