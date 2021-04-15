@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :subdevvit do
     sequence(:name) { |n| "subdevvit_#{n}" }
