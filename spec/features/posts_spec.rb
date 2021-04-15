@@ -28,20 +28,13 @@ RSpec.describe 'Posts', type: :feature, clean: true do
     end
   end
 
-  describe '#create' do
-    let!(:subdevvit) { FactoryBot.create(:subdevvit) }
+  describe '#new' do
+    it 'renders the New Post form' do
+      visit new_post_url
 
-    it 'creates a new post' do
-      visit '/posts/new'
-
-      fill_in('Title', with: 'New Post Title')
-      select(subdevvit.name, from: 'Subdevvit')
-      fill_in('Text', with: 'New Post Text')
-      expect { click_button 'Create Post' }.to change(Post, :count).by(1)
-
-      expect(page).to have_content('Post was successfully created.')
-      expect(page).to have_content('New Post Title')
-      expect(page).to have_content('New Post Text')
+      expect(page).to have_content('Title')
+      expect(page).to have_content('Text')
+      expect(page).to have_button('Create Post')
     end
   end
 
@@ -58,6 +51,32 @@ RSpec.describe 'Posts', type: :feature, clean: true do
       expect(page).to have_content('Post was successfully updated.')
       expect(page).to have_content('Edited Post Title')
       expect(page).to have_content('Edited Post Text')
+    end
+  end
+
+  describe '#create' do
+    let!(:subdevvit) { FactoryBot.create(:subdevvit) }
+
+    it 'creates a new post' do
+      visit '/posts/new'
+
+      fill_in('Title', with: 'New Post Title')
+      select(subdevvit.name, from: 'Subdevvit')
+      fill_in('Text', with: 'New Post Text')
+      expect { click_button 'Create Post' }.to change(Post, :count).by(1)
+
+      expect(page).to have_content('Post was successfully created.')
+      expect(page).to have_content('New Post Title')
+      expect(page).to have_content('New Post Text')
+    end
+
+    context 'with invalid parameters' do
+      it 'does not create a new Post' do
+        visit '/posts/new'
+        expect { click_button 'Create Post' }.to change(Post, :count).by(0)
+        expect(page).to have_content('Please review the problems below:')
+        expect(page).to have_content("Title can't be blank")
+      end
     end
   end
 

@@ -18,18 +18,37 @@ RSpec.describe '/posts', type: :request, clean: true do
   end
 
   describe 'GET /index' do
+    let!(:post_1) { FactoryBot.create(:post) }
+    let!(:post_2) { FactoryBot.create(:post) }
+    let!(:post_3) { FactoryBot.create(:post) }
+
     it 'renders a successful response' do
-      Post.create! valid_attributes
       get posts_url
       expect(response).to be_successful
+    end
+
+    it 'lists all posts' do
+      get posts_url
+
+      expect(response.body).to include(post_1.title)
+      expect(response.body).to include(post_2.title)
+      expect(response.body).to include(post_3.title)
     end
   end
 
   describe 'GET /show' do
+    let!(:post) { FactoryBot.create(:post) }
+
     it 'renders a successful response' do
-      post = Post.create! valid_attributes
       get post_url(post)
       expect(response).to be_successful
+    end
+
+    it 'shows a single post' do
+      get post_url(post)
+
+      expect(response.body).to include(post.title)
+      expect(response.body).to include(post.text)
     end
   end
 
@@ -41,8 +60,9 @@ RSpec.describe '/posts', type: :request, clean: true do
   end
 
   describe 'GET /edit' do
+    let!(:post) { FactoryBot.create(:post) }
+
     it 'render a successful response' do
-      post = Post.create! valid_attributes
       get edit_post_url(post)
       expect(response).to be_successful
     end
@@ -59,6 +79,10 @@ RSpec.describe '/posts', type: :request, clean: true do
       it 'redirects to the created post' do
         post posts_url, params: { post: valid_attributes }
         expect(response).to redirect_to(post_url(Post.last))
+
+        follow_redirect!
+
+        expect(response.body).to include(valid_attributes[:title])
       end
     end
 
@@ -77,6 +101,8 @@ RSpec.describe '/posts', type: :request, clean: true do
   end
 
   describe 'PATCH /update' do
+    let!(:post) { FactoryBot.create(:post) }
+
     context 'with valid parameters' do
       let(:new_attributes) do
         {
@@ -86,13 +112,11 @@ RSpec.describe '/posts', type: :request, clean: true do
       end
 
       it 'updates the requested post' do
-        post = Post.create! valid_attributes
         expect { patch post_url(post), params: { post: new_attributes } }
           .to change { post.reload.title }.to(new_attributes[:title])
       end
 
       it 'redirects to the post' do
-        post = Post.create! valid_attributes
         patch post_url(post), params: { post: new_attributes }
         post.reload
         expect(response).to redirect_to(post_url(post))
@@ -101,7 +125,6 @@ RSpec.describe '/posts', type: :request, clean: true do
 
     context 'with invalid parameters' do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        post = Post.create! valid_attributes
         patch post_url(post), params: { post: invalid_attributes }
         expect(response.status).to eq(422)
       end
@@ -109,15 +132,15 @@ RSpec.describe '/posts', type: :request, clean: true do
   end
 
   describe 'DELETE /destroy' do
+    let!(:post) { FactoryBot.create(:post) }
+
     it 'destroys the requested post' do
-      post = Post.create! valid_attributes
       expect do
         delete post_url(post)
       end.to change(Post, :count).by(-1)
     end
 
     it 'redirects to the posts list' do
-      post = Post.create! valid_attributes
       delete post_url(post)
       expect(response).to redirect_to(posts_url)
     end

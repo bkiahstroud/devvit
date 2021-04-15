@@ -8,24 +8,34 @@ RSpec.describe '/subdevvits', type: :request, clean: true do
   let(:valid_attributes) do
     { name: 'test_subdevvit' }
   end
-
   let(:invalid_attributes) do
     { name: '' }
   end
 
   describe 'GET /index' do
+    let!(:subdevvit) { FactoryBot.create(:subdevvit) }
+
     it 'renders a successful response' do
-      Subdevvit.create! valid_attributes
       get subdevvits_url
       expect(response).to be_successful
     end
   end
 
   describe 'GET /show' do
+    let(:subdevvit) { FactoryBot.create(:subdevvit) }
+    let!(:post_1) { FactoryBot.create(:post, subdevvit: subdevvit) }
+    let!(:post_2) { FactoryBot.create(:post) }
+
     it 'renders a successful response' do
-      subdevvit = Subdevvit.create! valid_attributes
       get subdevvit_url(subdevvit)
       expect(response).to be_successful
+    end
+
+    it 'shows all the posts in that subdevvit' do
+      get subdevvit_url(subdevvit)
+
+      expect(response.body).to include(post_1.title)
+      expect(response.body).not_to include(post_2.title)
     end
   end
 
@@ -37,8 +47,9 @@ RSpec.describe '/subdevvits', type: :request, clean: true do
   end
 
   describe 'GET /edit' do
+    let!(:subdevvit) { FactoryBot.create(:subdevvit) }
+
     it 'render a successful response' do
-      subdevvit = Subdevvit.create! valid_attributes
       get edit_subdevvit_url(subdevvit)
       expect(response).to be_successful
     end
@@ -73,19 +84,19 @@ RSpec.describe '/subdevvits', type: :request, clean: true do
   end
 
   describe 'PATCH /update' do
+    let!(:subdevvit) { FactoryBot.create(:subdevvit) }
+
     context 'with valid parameters' do
       let(:new_attributes) do
         { name: 'new_subdevvit' }
       end
 
       it 'updates the requested subdevvit' do
-        subdevvit = Subdevvit.create! valid_attributes
         expect { patch subdevvit_url(subdevvit), params: { subdevvit: new_attributes } }
           .to change { subdevvit.reload.name }.to(new_attributes[:name])
       end
 
       it 'redirects to the subdevvit' do
-        subdevvit = Subdevvit.create! valid_attributes
         patch subdevvit_url(subdevvit), params: { subdevvit: new_attributes }
         subdevvit.reload
         expect(response).to redirect_to(subdevvit_url(subdevvit))
@@ -94,7 +105,6 @@ RSpec.describe '/subdevvits', type: :request, clean: true do
 
     context 'with invalid parameters' do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        subdevvit = Subdevvit.create! valid_attributes
         patch subdevvit_url(subdevvit), params: { subdevvit: invalid_attributes }
         expect(response.status).to eq(422)
       end
@@ -102,15 +112,15 @@ RSpec.describe '/subdevvits', type: :request, clean: true do
   end
 
   describe 'DELETE /destroy' do
+    let!(:subdevvit) { FactoryBot.create(:subdevvit) }
+
     it 'destroys the requested subdevvit' do
-      subdevvit = Subdevvit.create! valid_attributes
       expect do
         delete subdevvit_url(subdevvit)
       end.to change(Subdevvit, :count).by(-1)
     end
 
     it 'redirects to the subdevvits list' do
-      subdevvit = Subdevvit.create! valid_attributes
       delete subdevvit_url(subdevvit)
       expect(response).to redirect_to(subdevvits_url)
     end
