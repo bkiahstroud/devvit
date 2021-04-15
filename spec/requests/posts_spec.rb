@@ -15,14 +15,18 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe '/posts', type: :request do
-  # Post. As you add validations to Post, be sure to
-  # adjust the attributes here as well.
+  let(:subdevvit) { FactoryBot.create(:subdevvit) }
   let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
+    {
+      title: 'Test Post',
+      subdevvit_id: subdevvit.id
+    }
   end
-
   let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
+    {
+      title: '',
+      subdevvit_id: nil
+    }
   end
 
   describe 'GET /index' do
@@ -79,7 +83,7 @@ RSpec.describe '/posts', type: :request do
 
       it "renders a successful response (i.e. to display the 'new' template)" do
         post posts_url, params: { post: invalid_attributes }
-        expect(response).to be_successful
+        expect(response.status).to eq(422)
       end
     end
   end
@@ -87,14 +91,16 @@ RSpec.describe '/posts', type: :request do
   describe 'PATCH /update' do
     context 'with valid parameters' do
       let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
+        {
+          title: 'New Post',
+          subdevvit_id: subdevvit.id
+        }
       end
 
       it 'updates the requested post' do
         post = Post.create! valid_attributes
-        patch post_url(post), params: { post: new_attributes }
-        post.reload
-        skip('Add assertions for updated state')
+        expect { patch post_url(post), params: { post: new_attributes } }
+          .to change { post.reload.title }.to(new_attributes[:title])
       end
 
       it 'redirects to the post' do
@@ -109,7 +115,7 @@ RSpec.describe '/posts', type: :request do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         post = Post.create! valid_attributes
         patch post_url(post), params: { post: invalid_attributes }
-        expect(response).to be_successful
+        expect(response.status).to eq(422)
       end
     end
   end

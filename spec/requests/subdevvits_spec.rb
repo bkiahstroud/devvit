@@ -18,11 +18,11 @@ RSpec.describe '/subdevvits', type: :request do
   # Subdevvit. As you add validations to Subdevvit, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
+    { name: 'test_subdevvit' }
   end
 
   let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
+    { name: '' }
   end
 
   describe 'GET /index' do
@@ -79,7 +79,7 @@ RSpec.describe '/subdevvits', type: :request do
 
       it "renders a successful response (i.e. to display the 'new' template)" do
         post subdevvits_url, params: { subdevvit: invalid_attributes }
-        expect(response).to be_successful
+        expect(response.status).to eq(422)
       end
     end
   end
@@ -87,14 +87,13 @@ RSpec.describe '/subdevvits', type: :request do
   describe 'PATCH /update' do
     context 'with valid parameters' do
       let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
+        { name: 'new_subdevvit' }
       end
 
       it 'updates the requested subdevvit' do
         subdevvit = Subdevvit.create! valid_attributes
-        patch subdevvit_url(subdevvit), params: { subdevvit: new_attributes }
-        subdevvit.reload
-        skip('Add assertions for updated state')
+        expect { patch subdevvit_url(subdevvit), params: { subdevvit: new_attributes } }
+          .to change { subdevvit.reload.name }.to(new_attributes[:name])
       end
 
       it 'redirects to the subdevvit' do
@@ -109,7 +108,7 @@ RSpec.describe '/subdevvits', type: :request do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         subdevvit = Subdevvit.create! valid_attributes
         patch subdevvit_url(subdevvit), params: { subdevvit: invalid_attributes }
-        expect(response).to be_successful
+        expect(response.status).to eq(422)
       end
     end
   end
