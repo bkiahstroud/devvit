@@ -13,11 +13,21 @@ RSpec.describe '/subdevvits', type: :request, clean: true do
   end
 
   describe 'GET /index' do
-    let!(:subdevvit) { FactoryBot.create(:subdevvit) }
+    let!(:subdevvit_1) { FactoryBot.create(:subdevvit) }
+    let!(:subdevvit_2) { FactoryBot.create(:subdevvit) }
+    let!(:subdevvit_3) { FactoryBot.create(:subdevvit) }
 
     it 'renders a successful response' do
       get subdevvits_url
       expect(response).to be_successful
+    end
+
+    it 'lists all subdevvits' do
+      get '/subdevvits'
+
+      expect(response.body).to include(subdevvit_1.name)
+      expect(response.body).to include(subdevvit_2.name)
+      expect(response.body).to include(subdevvit_3.name)
     end
   end
 
@@ -74,10 +84,6 @@ RSpec.describe '/subdevvits', type: :request, clean: true do
         expect do
           post subdevvits_url, params: { subdevvit: invalid_attributes }
         end.to change(Subdevvit, :count).by(0)
-      end
-
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        post subdevvits_url, params: { subdevvit: invalid_attributes }
         expect(response.status).to eq(422)
       end
     end
@@ -104,7 +110,7 @@ RSpec.describe '/subdevvits', type: :request, clean: true do
     end
 
     context 'with invalid parameters' do
-      it "renders a successful response (i.e. to display the 'edit' template)" do
+      it 'renders an Unprocessable Entity response' do
         patch subdevvit_url(subdevvit), params: { subdevvit: invalid_attributes }
         expect(response.status).to eq(422)
       end

@@ -93,7 +93,7 @@ RSpec.describe '/posts', type: :request, clean: true do
         end.to change(Post, :count).by(0)
       end
 
-      it "renders a successful response (i.e. to display the 'new' template)" do
+      it 'renders an Unprocessable Entity response' do
         post posts_url, params: { post: invalid_attributes }
         expect(response.status).to eq(422)
       end
@@ -124,7 +124,7 @@ RSpec.describe '/posts', type: :request, clean: true do
     end
 
     context 'with invalid parameters' do
-      it "renders a successful response (i.e. to display the 'edit' template)" do
+      it 'renders an Unprocessable Entity response' do
         patch post_url(post), params: { post: invalid_attributes }
         expect(response.status).to eq(422)
       end
