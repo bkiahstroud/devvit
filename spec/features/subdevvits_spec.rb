@@ -116,7 +116,7 @@ RSpec.describe 'Subdevvits', type: :feature, clean: true do
   describe '#destroy', js: true do # need js to use #accept_confirm
     let!(:subdevvit) { FactoryBot.create(:subdevvit) }
 
-    it 'deletes a subdevvit' do
+    it 'destroys the requested subdevvit' do
       visit '/subdevvits'
 
       accept_confirm { find("[data-id='#{subdevvit.id}']").find("[data-method='delete']").click }

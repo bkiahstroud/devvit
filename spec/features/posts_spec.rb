@@ -83,7 +83,7 @@ RSpec.describe 'Posts', type: :feature, clean: true do
     let!(:post) { FactoryBot.create(:post) }
 
     context 'with valid form inputs' do
-      it 'edits the requested post' do
+      it 'updates the requested post' do
         visit "/posts/#{post.id}/edit"
 
         fill_in('Title', with: 'Edited Post Title')
@@ -116,7 +116,7 @@ RSpec.describe 'Posts', type: :feature, clean: true do
   describe '#destroy', js: true do # need js to use #accept_confirm
     let!(:post) { FactoryBot.create(:post) }
 
-    it 'deletes a post' do
+    it 'destroys the requested post' do
       visit '/posts'
 
       accept_confirm { find("[data-id='#{post.id}']").find("[data-method='delete']").click }

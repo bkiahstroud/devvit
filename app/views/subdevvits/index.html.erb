@@ -1,7 +1,14 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Subdevvits</h1>
-<%= link_to 'New Subdevvit', new_subdevvit_path %>
+<div class='grid-index'>
+  <div class='grid-item-index-1'></div>
+  <div class='grid-item-index-2'>
+    <h2>All Subdevvits</h2>
+  </div>
+  <div class='grid-item-index-3'>
+    <%= link_to 'New Subdevvit', new_subdevvit_path %>
+  </div>
+</div>
 
 <div class='grid-container'>
   <% @subdevvits.each do |subdevvit| %>
